@@ -1,0 +1,5 @@
+# Copy to config.py (gitignored) and fill in
+RPC_URL = "http://localhost:8545"  # Ethereum mainnet node: forked for every run, and sends the --live transactions
+ETHERSCAN_API_KEY = ""
+PINATA_JWT = ""  # --live votes only: pins the vote description to IPFS
+KEYSTORE = ""  # --live only: brownie keystore in ~/.brownie/accounts (votes need 2,500 veCRV)
