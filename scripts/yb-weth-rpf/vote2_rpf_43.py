@@ -14,7 +14,7 @@ Actions:
     3. proxy.execute(pool, set_fee_parameters(43%, 0))
 Until 1 and 2 hold, executeVote reverts; the vote stays executable.
 
-A rebalance step costs ~0.004% of virtual_price at the largest step (0.5%), so a 0.1% MAX_BUDGET is reachable, and
+A rebalance step costs ~0.004% of virtual_price at the largest step (0.5%), so a 0.05% MAX_BUDGET is reachable, and
 the pool keeps rebalancing while it waits for someone to execute this vote.
 
 The fork simulation brings the pool to the state this vote is meant for: it passes vote 1525 and vote 1 (applies
@@ -39,7 +39,7 @@ from common import (CALL_COMPARATOR, LIVE, POOL, PROXY, RPF_43, RPF_100, VOTE_15
 
 CONDITION = None  # RebalanceBudgetCondition deployed by deploy_condition.py; if None, deployed on the fork
 VOTE_1 = None  # Curve vote created by vote1_rpf_100.py
-MAX_BUDGET = 10**15  # 0.1% in virtual_price units
+MAX_BUDGET = 5 * 10**14  # 0.05% in virtual_price units
 LP_XCP_PROFIT_SLOT = 23  # fork only: storage layout of the pool's verified source
 
 assert not LIVE or (CONDITION and VOTE_1), "Set CONDITION and VOTE_1 before creating the vote"
@@ -58,7 +58,7 @@ DESCRIPTION = (
     f"Return the reserved profit fraction of the YieldBasis crvUSD/WETH pool ({POOL}) to 43% from the 100% set by "
     f"vote {VOTE_1}. The vote can only execute once the pool has almost spent its rebalancing budget: it first asks "
     f"CallComparator ({comparator.address}) to check that the fraction is still 100%, then RebalanceBudgetCondition "
-    f"({condition.address}) to check that virtual_price exceeds lp_xcp_profit by at most {MAX_BUDGET / 1e18:.1%}. "
+    f"({condition.address}) to check that virtual_price exceeds lp_xcp_profit by at most {MAX_BUDGET / 1e18:.2%}. "
     "Until then executeVote reverts, and the vote can be executed later."
 )
 
