@@ -22,4 +22,15 @@ dependencies = [
 [tool.hatch.build.targets.wheel]
 packages = ["voting"]
 
+[tool.uv]
+# titanoboa pins mkdocs-material==9.5.41 (docs-only, never imported at runtime), which holds back
+# pymdown-extensions with GHSA-9xwg-3r6f-jcx2 and GHSA-gm37-52c6-37mw
+override-dependencies = ["mkdocs-material>=9.7.7"]
+
+[tool.uv.audit]
+# vyper 0.4.3 (pinned by titanoboa 0.2.8) is not affected by either advisory:
+# - PYSEC-2023-142 (GHSA-5824-cm3x-3c38): pre-0.4 reentrancy issue, long fixed
+# - GHSA-vgf2-gvx8-xwc3 (CVE-2025-21607): precompile success check, fixed in 0.4.1
+ignore = ["PYSEC-2023-142", "GHSA-vgf2-gvx8-xwc3"]
+
 
